@@ -1,14 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+
+import { Routes, Route } from 'react-router-dom';
+
 import './App.css';
 
-import { GiphySearch } from './pages/GiphySearch';
+import { FavoriteGiphies } from './pages/FavoriteGiphies/FavoriteGiphies';
+import { GiphySearch } from './pages/GiphySearch/GiphySearch';
+
+import { FavoritesProvider } from './context/favorites/FavoritesContext';
 
 function App() {
   return (
-    <div className='App'>
-      <GiphySearch />
-    </div>
+    <FavoritesProvider>
+      <div className='App'>
+        <Routes>
+          <Route path='/' element={<GiphySearch />} />
+          <Route path='favorites' element={<FavoriteGiphies />} />
+        </Routes>
+      </div>
+    </FavoritesProvider>
   );
 }
 

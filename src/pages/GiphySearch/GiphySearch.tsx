@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 
-import { GiphyListWithInfiniteScroll } from '../components/GiphyListWithInfiniteScroll/GiphyListWithInfiniteScroll';
+import { Link } from 'react-router-dom';
 
-import { useGetGiphies } from '../services/giphy.service';
+import { GiphyListWithInfiniteScroll } from '../../components/GiphyListWithInfiniteScroll/GiphyListWithInfiniteScroll';
 
-import { categories } from '../constants/category.contant';
-import { Category } from '../models/categories.model';
+import { useGetGiphies } from '../../services/giphy.service';
+import { useFavorites } from '../../context/favorites/useFavorites';
+
+import { categories } from '../../constants/category.contant';
+import { Category } from '../../models/categories.model';
+import { IGiphy } from '../../models/giphy.model';
 
 import './GiphySearch.scss';
 
@@ -15,6 +19,12 @@ export const GiphySearch = () => {
   const [ofset, setOfset] = useState<number>(0);
 
   const [getGiphies, result, loading, error] = useGetGiphies();
+  const { favorites, addFavorite, removeFavorite } = useFavorites();
+
+  if (result)
+    result.forEach((x) => {
+      x.isFavorite = favorites.some((y) => y.id === x.id);
+    });
 
   const type =
     (searchText?.length > 2 ? searchText : '') || (selectedOption as Category);
@@ -43,6 +53,9 @@ export const GiphySearch = () => {
     }
   };
 
+  const handleUndoFavorite = (id: string) => removeFavorite(id);
+  const handleFavorite = (giphy: IGiphy) => addFavorite(giphy);
+
   return (
     <div className='giphy-search'>
       <input value={searchText} onChange={handleSearchTextChange} />
@@ -57,9 +70,15 @@ export const GiphySearch = () => {
 
       <button onClick={handleSearch}>Search</button>
 
+      <h3>
+        <Link to='/favorites'>Favorite Giphies ({favorites?.length})</Link>
+      </h3>
+
       <GiphyListWithInfiniteScroll
         datasource={result}
         loadMore={handleLoadMore}
+        onUndo={handleUndoFavorite}
+        onFavorite={handleFavorite}
       />
       {loading && <div>Loading....</div>}
       {error && <div>Something went wrong</div>}

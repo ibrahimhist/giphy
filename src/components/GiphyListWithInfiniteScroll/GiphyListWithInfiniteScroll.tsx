@@ -8,7 +8,7 @@ export type GiphyListWithInfiniteScrollProps = {
 
 export const GiphyListWithInfiniteScroll: React.FC<
   GiphyListWithInfiniteScrollProps
-> = ({ datasource = [], loadMore }) => {
+> = ({ datasource = [], loadMore, ...rest }) => {
   const handleListScroll = (e: any) => {
     const bottom: boolean =
       e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight < 100;
@@ -23,7 +23,7 @@ export const GiphyListWithInfiniteScroll: React.FC<
       onScroll={handleListScroll}
       style={{ height: '100%', width: '100%', overflow: 'auto' }}
     >
-      <GiphyList datasource={datasource} />
+      <GiphyList datasource={datasource} {...rest} />
     </div>
   );
 };

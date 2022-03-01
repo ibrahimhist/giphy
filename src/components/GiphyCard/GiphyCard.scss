@@ -1,6 +1,6 @@
 $image-height: 9.5rem;
 
-$lines-to-show: 3;
+$lines-to-show: 1;
 
 .image-card {
   overflow: hidden;
@@ -37,7 +37,7 @@ $lines-to-show: 3;
     span {
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: $lines-to-show;
       overflow: hidden;
     }
   }

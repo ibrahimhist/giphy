@@ -7,12 +7,10 @@ import './GiphyCard.scss';
 export type GiphyCardProps = {
   onFavorite?: (id: string) => void;
   key?: string;
-  content?: string;
 } & IGiphy;
 
 export const GiphyCard: React.FC<GiphyCardProps> = ({
   title,
-  content,
   img,
   children,
 }) => {
