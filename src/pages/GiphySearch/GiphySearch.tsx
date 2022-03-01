@@ -45,6 +45,7 @@ export const GiphySearch = () => {
     if (type) getGiphies({ type });
   };
 
+  // there are some libraries, this is just basic implementation.
   const handleLoadMore = () => {
     if (!loading) {
       const newOfset = ofset + 25;
