@@ -1,0 +1,19 @@
+.giphy-search {
+  width: 100%;
+  height: calc(100vh);
+  padding: 2rem;
+
+  display: grid;
+  gap: 1rem;
+  grid-template-rows: auto auto auto 1fr;
+  max-width: 50rem;
+  margin: auto;
+
+  .giphy-list-with-infinite-scroll-container {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem;
+    grid-auto-rows: 12rem;
+  }
+}

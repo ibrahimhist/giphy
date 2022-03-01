@@ -1,0 +1,34 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  // font-size: 62.5%; // 1rem = 10px, 10px/16px browser default 16px
+  font-size: 62.5%; // 1rem = 10px, 10px/16px browser default 16px
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  background-color: var(--background);
+  color: var(--color-primary-text);
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+:root {
+  --surface: #fff;
+  --background: #f9fbfc;
+  --color-primary-text: #212121;
+  --color-secondary-text: #757575;
+
+  --border-radius-xs: 0.4rem;
+  --border-radius-small: 0.7rem;
+  --border-radius-medium: 1.5rem;
+}

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { GiphyCard } from '../GiphyCard/GiphyCard';
+
 import { IGiphy } from '../../models/giphy.model';
 
 export type GiphyListProps = {
@@ -7,9 +9,10 @@ export type GiphyListProps = {
 };
 export const GiphyList: React.FC<GiphyListProps> = ({ datasource }) => {
   return (
-    <ul>
-      {datasource && datasource.map((x: IGiphy) => <li key={x.id}>{x.id}</li>)}
-    </ul>
+    <>
+      {datasource &&
+        datasource.map((x: IGiphy) => <GiphyCard key={x.id} {...x} />)}
+    </>
   );
 };
 

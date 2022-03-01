@@ -7,6 +7,8 @@ import { useGetGiphies } from '../services/giphy.service';
 import { categories } from '../constants/category.contant';
 import { Category } from '../models/categories.model';
 
+import './GiphySearch.scss';
+
 export const GiphySearch = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [selectedOption, setSelectedOption] = useState<Category>();
@@ -42,7 +44,7 @@ export const GiphySearch = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
+    <div className='giphy-search'>
       <input value={searchText} onChange={handleSearchTextChange} />
       <select value={selectedOption} onChange={handleCategoryChange}>
         <option value={''}>---</option>
@@ -55,14 +57,12 @@ export const GiphySearch = () => {
 
       <button onClick={handleSearch}>Search</button>
 
-      <div style={{ height: '200px' }}>
-        <GiphyListWithInfiniteScroll
-          datasource={result}
-          loadMore={handleLoadMore}
-        />
-        {loading && <div>Loading....</div>}
-        {error && <div>Something went wrong</div>}
-      </div>
+      <GiphyListWithInfiniteScroll
+        datasource={result}
+        loadMore={handleLoadMore}
+      />
+      {loading && <div>Loading....</div>}
+      {error && <div>Something went wrong</div>}
     </div>
   );
 };

@@ -19,6 +19,7 @@ export const GiphyListWithInfiniteScroll: React.FC<
 
   return (
     <div
+      className='giphy-list-with-infinite-scroll-container'
       onScroll={handleListScroll}
       style={{ height: '100%', width: '100%', overflow: 'auto' }}
     >
