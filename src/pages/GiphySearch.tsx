@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 
-import { GiphyList } from '../components/giphy-list/GiphyList';
+import { GiphyListWithInfiniteScroll } from '../components/GiphyListWithInfiniteScroll/GiphyListWithInfiniteScroll';
 
-import { getGiphies } from '../services/giphy.service';
+import { useGetGiphies } from '../services/giphy.service';
 
 import { categories } from '../constants/category.contant';
 import { Category } from '../models/categories.model';
-import { Giphy } from '../models/giphy.model';
 
 export const GiphySearch = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [selectedOption, setSelectedOption] = useState<Category>();
+  const [ofset, setOfset] = useState<number>(0);
 
-  const [limit, setLimit] = useState<number>(25);
+  const [getGiphies, result, loading, error] = useGetGiphies();
 
-  const [result, setResult] = useState<Giphy[]>([]);
+  const type =
+    (searchText?.length > 2 ? searchText : '') || (selectedOption as Category);
 
   const handleSearchTextChange = (e: any) => {
     setSearchText(e.target.value || '');
@@ -28,29 +29,15 @@ export const GiphySearch = () => {
   };
 
   const handleSearch = () => {
-    const type = (searchText?.length > 2 ? searchText : '') || selectedOption;
-    if (type) {
-      getGiphies(type).then((response) => {
-        console.log(response.data.data);
-
-        const newResult = response.data.data.map((x: any) => ({
-          id: x.id,
-          img: x.images.original.url,
-        }));
-        setResult(newResult);
-        // id, images.originalurl
-      });
-    }
+    setOfset(0);
+    if (type) getGiphies({ type });
   };
 
-  console.log({ searchText, selectedOption, result });
-
-  const handleListScroll = (e: any) => {
-    const bottom: boolean =
-      e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight < 100;
-    if (bottom) {
-      const newLimit = limit + 25;
-      setLimit(newLimit);
+  const handleLoadMore = () => {
+    if (!loading) {
+      const newOfset = ofset + 25;
+      setOfset(newOfset);
+      getGiphies({ type, offset: newOfset, appendResult: true });
     }
   };
 
@@ -68,11 +55,13 @@ export const GiphySearch = () => {
 
       <button onClick={handleSearch}>Search</button>
 
-      <div
-        onScroll={handleListScroll}
-        style={{ height: '100px', overflow: 'auto' }}
-      >
-        <GiphyList datasource={result} />
+      <div style={{ height: '200px' }}>
+        <GiphyListWithInfiniteScroll
+          datasource={result}
+          loadMore={handleLoadMore}
+        />
+        {loading && <div>Loading....</div>}
+        {error && <div>Something went wrong</div>}
       </div>
     </div>
   );
